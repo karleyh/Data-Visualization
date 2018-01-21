@@ -8,19 +8,21 @@ January 2018
 /* ========================== Begin D3 Graph ========================= */
 d3.json("stockMarketPerformanceData.json", function(stock) {
     /* ========= Constants ========= */
-    // Define Text Colors
-    var lowerLineColor = "#acadae";
+    // Define Text Properties
+    var lowerLineColor = "#e5e6e7";
     var lowerHighlightColor = "#d7207e";
-    var upperLineColor = "#868788";
-    var upperHighlightColor = "#4dfff5";
+    var upperLineColor = "#bfc0c1";
+    var upperHighlightColor = "#0db4c1";
     var textColor = "#9a9b9c";
     var textSize = "10px";
     var trumpTextColor = "#8e8f90";
     var trumpLineColor = "#ff0a0a";
     var trumpTextSize = "11px";
+    var highlightTextSize = "16px";
+    var highlightTextColor = "#525354";
     //width and height of svg
     var w = 800;
-    var h = 600;
+    var h = 800;
     var padding = 30;
 
     /* ====================== Data processing ========================= */
@@ -66,21 +68,9 @@ d3.json("stockMarketPerformanceData.json", function(stock) {
     var yScale = d3.scaleLinear()
         .domain([minStock, maxStock])
         .range([h - padding, padding]);
-    //Define axis based on scales
-    var xAxis = d3.axisBottom()
-        .scale(xScale);
-    var yAxis = d3.axisLeft()
-        .scale(yScale);
-    //Create X axis
-    svg.append("g")
-        .attr("class", "axis")
-        .attr("transform", "translate(0," + (h - padding) + ")")
-        .call(xAxis);
-    //Create Y axis
-    svg.append("g")
-        .attr("class", "axis")
-        .attr("transform", "translate(" + padding + ",0)")
-        .call(yAxis);
+    //createAxis(xScale, yScale, svg, h, padding);
+    createGrid(svg, h, padding, xScale, yScale, w);
+
 
     /* =========== Create lines for each president with mouseover highlight and text ============= */
     var keys = Object.keys(stock[0]);
@@ -88,16 +78,34 @@ d3.json("stockMarketPerformanceData.json", function(stock) {
         var p = keys[i];
         if ((p != 'date') && (p != 'Trump')) {
             createLines(p, xScale, yScale, svg, stock, upperLineColor, upperHighlightColor,
-                lowerLineColor, lowerHighlightColor);
-            createText(svg, stock, xScale, maxDate, yScale, p, textColor, textSize);
+                lowerLineColor, lowerHighlightColor, highlightTextColor, highlightTextSize);
+            createText(svg, stock, xScale, maxDate, yScale, p, textColor, textSize, upperLineColor, upperHighlightColor,
+                lowerLineColor, lowerHighlightColor, textSize, textColor, highlightTextSize, highlightTextColor);
         }
     }
-    createTrumpLine(xScale, yScale, svg, stock, trumpLineColor, maxDate, trumpTextColor, trumpTextSize);
+    createTrumpLine(xScale, yScale, svg, stock, trumpLineColor, maxDate, trumpTextColor, trumpTextSize,
+        highlightTextColor, highlightTextSize);
 });
 
 
 /* ========================== Global Functions ===================== */
-function createText(svg, stock, xScale, maxDate, yScale, p, textColor, textSize) {
+
+var previousMouseOver = "Clinton";
+function mouseOver(p, lowerHighlightColor, upperHighlightColor, highlightTextSize, highlightTextColor,
+                   lowerLineColor, upperLineColor, textSize, textColor) {
+    document.getElementById(p + "lower").style.stroke = lowerHighlightColor;
+    document.getElementById(p + "upper").style.stroke = upperHighlightColor;
+    document.getElementById(p + "text").style.fontSize = highlightTextSize;
+    document.getElementById(p + "text").style.fill = highlightTextColor;
+    document.getElementById(previousMouseOver + "lower").style.stroke = lowerLineColor;
+    document.getElementById(previousMouseOver + "upper").style.stroke = upperLineColor;
+    document.getElementById(previousMouseOver + "text").style.fontSize = textSize;
+    document.getElementById(previousMouseOver + "text").style.fill = textColor;
+    previousMouseOver = p;
+}
+
+function createText(svg, stock, xScale, maxDate, yScale, p, textColor, textSize, upperLineColor, upperHighlightColor,
+                    lowerLineColor, lowerHighlightColor, highlightTextColor, highlightTextSize) {
 // Add presidents name to each line
     svg.append("text").datum(stock)
         .attr("x", xScale(maxDate))
@@ -105,11 +113,18 @@ function createText(svg, stock, xScale, maxDate, yScale, p, textColor, textSize)
         .text(p.toLowerCase())
         .attr("font-family", "sans-serif")
         .attr("font-size", textSize)
-        .attr("fill", textColor);
+        .attr("fill", textColor)
+        .attr("id", p + "text")
+        .datum(p)
+        .on("mouseover", function () {
+            mouseOver(p, lowerHighlightColor, upperHighlightColor, highlightTextSize, highlightTextColor,
+                lowerLineColor, upperLineColor, textSize, textColor);
+        });
 }
 
 function createLines(p, xScale, yScale, svg, stock, upperLineColor, upperHighlightColor,
-                     lowerLineColor, lowerHighlightColor) {
+                     lowerLineColor, lowerHighlightColor, textSize, textColor, highlightTextSize,
+                     highlightTextColor) {
     var posLine = d3.line()
         .defined(function (d) {
             return d[p] >= 0;
@@ -138,14 +153,12 @@ function createLines(p, xScale, yScale, svg, stock, upperLineColor, upperHighlig
         .attr("stroke-linecap", "round")
         .attr("stroke-width", 3)
         .attr("class", "line")
+        .attr("id", p + "upper")
         .attr("d", posLine)
+        .datum(p)
         .on("mouseover", function () {
-            d3.select(this)
-                .attr("stroke", upperHighlightColor);
-        })
-        .on("mouseout", function () {
-            d3.select(this)
-                .attr("stroke", upperLineColor);
+            mouseOver(p, lowerHighlightColor, upperHighlightColor, highlightTextSize, highlightTextColor,
+                lowerLineColor, upperLineColor, textSize, textColor);
         });
     svg.append("path")
         .datum(stock)
@@ -155,56 +168,18 @@ function createLines(p, xScale, yScale, svg, stock, upperLineColor, upperHighlig
         .attr("stroke-linecap", "round")
         .attr("stroke-width", 3)
         .attr("class", "line")
+        .attr("id", p + "lower")
         .attr("d", negLine)
-        .on("mouseover", function () {
-            d3.select(this)
-                .attr("stroke", lowerHighlightColor);
-        })
-        .on("mouseout", function () {
-            d3.select(this)
-                .attr("stroke", lowerLineColor);
-        });
-}
-
-function createGradientLines(p, xScale, yScale, svg, stock, upperLineColor, upperHighlightColor,
-                             lowerLineColor, lowerHighlightColor) {
-    //Define line generator
-    var line = d3.line()
-        .defined(function (d) {
-            return d[p];
-        })
-        .x(function (d) {
-            return xScale(d.date);
-        })
-        .y(function (d) {
-            return yScale(d[p]);
+        .datum(p)
+        .on("mouseover", function (p) {
+            mouseOver(p, lowerHighlightColor, upperHighlightColor, highlightTextSize, highlightTextColor,
+                lowerLineColor, upperLineColor, textSize, textColor);
         });
 
-    svg.append("linearGradient")
-        .attr("y1", yScale(minStock))
-        .attr("y2", yScale(maxStock))
-        .attr("x1", 0)
-        .attr("x2", xScale(maxDate))
-        .attr("id", "gradient")
-        .attr("gradientUnits", "userSpaceOnUse")
-        .append("stop")
-        .attr("offset", "0")
-        .attr("stop-color", "#ff0")
-        .append("stop")
-        .attr("offset", "0.5")
-        .attr("stop-color", "#f00")
-
-    svg.append("path")
-        .datum(stock)
-        .attr("fill", "none")
-        .attr("stroke-linejoin", "round")
-        .attr("stroke-linecap", "round")
-        .attr("stroke-width", 3)
-        .attr("class", "line")
-        .attr("d", line);
 }
 
-function createTrumpLine(xScale, yScale, svg, stock, trumpLineColor, maxDate, trumpTextColor, trumpTextSize) {
+function createTrumpLine(xScale, yScale, svg, stock, trumpLineColor, maxDate, trumpTextColor, trumpTextSize,
+                         highlightTextColor, highlightTextSize) {
     var trumpLine = d3.line()
         .defined(function (d) {
             return d["Trump"];
@@ -224,7 +199,66 @@ function createTrumpLine(xScale, yScale, svg, stock, trumpLineColor, maxDate, tr
         .attr("stroke-width", 3)
         .attr("class", "line")
         .attr("d", trumpLine);
-    createText(svg, stock, xScale, maxDate, yScale, "Trump", trumpTextColor, trumpTextSize);
+    createText(svg, stock, xScale, maxDate, yScale, "Trump", trumpTextColor, trumpTextSize,
+        trumpLineColor, trumpLineColor, trumpLineColor, trumpLineColor, highlightTextColor, highlightTextSize);
+}
+
+function createAxis(xScale, yScale, svg, h, padding) {
+//Define axis based on scales
+    var xAxis = d3.axisBottom()
+        .scale(xScale);
+    var yAxis = d3.axisLeft()
+        .scale(yScale);
+    //Create X axis
+    svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(0," + (h - padding) + ")")
+        .call(xAxis);
+    //Create Y axis
+    svg.append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(" + padding + ",0)")
+        .call(yAxis);
+}
+
+function createGrid(svg, h, padding, xScale, yScale, w) {
+    svg.append("g")
+        .attr("class", "grid")
+        .attr("transform", "translate(0," + (h + padding) + ")")
+        .attr("stroke", "#bfc0c1")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .attr("stroke-width", 3)
+        .call(d3.axisBottom(xScale)
+            .tickSize(-h)
+            .tickFormat("")
+        );
+    svg.append("g")
+        .attr("transform", "translate(0," + (h - padding) + ")")
+        .attr("stroke", "#bfc0c1")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .attr("stroke-width", 3)
+        .call(d3.axisBottom(xScale)
+            .ticks(10));
+
+    svg.append("g")
+        .attr("class", "grid")
+        .attr("transform", "translate(" + padding + ",0)")
+        .attr("stroke", "#bfc0c1")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .call(d3.axisLeft(yScale)
+            .tickSize(-w)
+            .tickFormat("")
+        );
+    svg.append("g")
+        .attr("transform", "translate(" + padding + ",0)")
+        .attr("stroke", "#bfc0c1")
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .call(d3.axisLeft(yScale)
+            .ticks(13));
 }
 
 
