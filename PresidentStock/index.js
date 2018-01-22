@@ -20,6 +20,7 @@ d3.json("stockMarketPerformanceData.json", function(stock) {
     var trumpTextSize = "11px";
     var highlightTextSize = "16px";
     var highlightTextColor = "#525354";
+    var gridColor = "#b8b9ba";
     //width and height of svg
     var w = 800;
     var h = 800;
@@ -84,12 +85,11 @@ d3.json("stockMarketPerformanceData.json", function(stock) {
         }
     }
     createTrumpLine(xScale, yScale, svg, stock, trumpLineColor, maxDate, trumpTextColor, trumpTextSize,
-        highlightTextColor, highlightTextSize);
+        highlightTextColor, highlightTextSize, gridColor);
 });
 
 
 /* ========================== Global Functions ===================== */
-
 var previousMouseOver = "Clinton";
 function mouseOver(p, lowerHighlightColor, upperHighlightColor, highlightTextSize, highlightTextColor,
                    lowerLineColor, upperLineColor, textSize, textColor) {
@@ -159,6 +159,16 @@ function createLines(p, xScale, yScale, svg, stock, upperLineColor, upperHighlig
         .on("mouseover", function () {
             mouseOver(p, lowerHighlightColor, upperHighlightColor, highlightTextSize, highlightTextColor,
                 lowerLineColor, upperLineColor, textSize, textColor);
+        })
+        .on("mousemove", function(d){
+            svg.selectAll("text.val").remove();
+            svg.append("text")
+                .attr("y", d3.mouse(this)[1])//magic number here
+                .attr("x", d3.mouse(this)[0])
+                .attr('text-anchor', 'middle')
+                .attr("font-size", 30)
+                .attr("class", "val")
+                .text(parseInt(yScale.invert(d3.mouse(this)[1]))+"%");
         });
     svg.append("path")
         .datum(stock)
@@ -174,7 +184,17 @@ function createLines(p, xScale, yScale, svg, stock, upperLineColor, upperHighlig
         .on("mouseover", function (p) {
             mouseOver(p, lowerHighlightColor, upperHighlightColor, highlightTextSize, highlightTextColor,
                 lowerLineColor, upperLineColor, textSize, textColor);
-        });
+        })
+    .on("mousemove", function(d){
+        svg.selectAll("text.val").remove();
+        svg.append("text")
+            .attr("y", d3.mouse(this)[1])//magic number here
+            .attr("x", d3.mouse(this)[0])
+            .attr('text-anchor', 'middle')
+            .attr("font-size", 30)
+            .attr("class", "val")
+            .text(parseInt(yScale.invert(d3.mouse(this)[1]))+"%");
+    });
 
 }
 
@@ -221,44 +241,48 @@ function createAxis(xScale, yScale, svg, h, padding) {
         .call(yAxis);
 }
 
-function createGrid(svg, h, padding, xScale, yScale, w) {
+function createGrid(svg, h, padding, xScale, yScale, w, gridColor) {
     svg.append("g")
         .attr("class", "grid")
         .attr("transform", "translate(0," + (h + padding) + ")")
-        .attr("stroke", "#bfc0c1")
+        .attr("stroke", gridColor)
+        .attr("stroke-opacity", 0.7)
         .attr("stroke-linejoin", "round")
         .attr("stroke-linecap", "round")
-        .attr("stroke-width", 3)
+        .attr('stroke-width', 0)
         .call(d3.axisBottom(xScale)
             .tickSize(-h)
             .tickFormat("")
         );
     svg.append("g")
         .attr("transform", "translate(0," + (h - padding) + ")")
-        .attr("stroke", "#bfc0c1")
+        .attr("stroke", gridColor)
+        .attr("stroke-opacity", 0.7)
         .attr("stroke-linejoin", "round")
         .attr("stroke-linecap", "round")
-        .attr("stroke-width", 3)
         .call(d3.axisBottom(xScale)
-            .ticks(10));
+            .ticks(5));
 
     svg.append("g")
         .attr("class", "grid")
         .attr("transform", "translate(" + padding + ",0)")
-        .attr("stroke", "#bfc0c1")
+        .attr("stroke", gridColor)
+        .attr("stroke-opacity", 0.7)
         .attr("stroke-linejoin", "round")
         .attr("stroke-linecap", "round")
+        .attr('stroke-width', 0)
         .call(d3.axisLeft(yScale)
-            .tickSize(-w)
+            .tickSize(-w+70)
             .tickFormat("")
         );
     svg.append("g")
         .attr("transform", "translate(" + padding + ",0)")
-        .attr("stroke", "#bfc0c1")
+        .attr("stroke", gridColor)
+        .attr("stroke-opacity", 0.7)
         .attr("stroke-linejoin", "round")
         .attr("stroke-linecap", "round")
         .call(d3.axisLeft(yScale)
-            .ticks(13));
+            .ticks(5));
 }
 
 

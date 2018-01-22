@@ -17,8 +17,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="2" column="33" lean-forward="false" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
+            <state relative-caret-position="480">
+              <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -27,14 +27,11 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1516">
-              <caret line="258" column="40" lean-forward="false" selection-start-line="258" selection-start-column="40" selection-end-line="258" selection-end-column="40" />
+            <state relative-caret-position="-964">
+              <caret line="187" column="33" lean-forward="true" selection-start-line="187" selection-start-column="33" selection-end-line="187" selection-end-column="33" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <element signature="n#!!block;n#mouseOver#0" expanded="false" />
-                <element signature="n#!!block;n#createText#0" expanded="false" />
-                <element signature="n#!!block;n#createTrumpLine#0" expanded="false" />
-                <element signature="n#!!block;n#createAxis#0" expanded="false" />
+                <element signature="n#!!block;n#createGrid#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -64,10 +61,10 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>dataset</find>
-      <find>mouseover</find>
       <find>dates</find>
       <find>mouseOver</find>
       <find>stroke</find>
+      <find>mouseover</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -87,7 +84,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-16" />
     <option name="y" value="-16" />
     <option name="width" value="3872" />
@@ -165,18 +162,17 @@
       <option name="presentableId" value="Default" />
       <updated>1516415626508</updated>
       <workItem from="1516415627685" duration="32267000" />
-      <workItem from="1516555686818" duration="9284000" />
+      <workItem from="1516555686818" duration="16560000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41551000" />
+    <option name="totallyTimeSpent" value="48827000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-16" y="-16" width="3872" height="2092" extended-state="7" />
-    <editor active="true" />
+    <frame x="-16" y="-16" width="3872" height="2092" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18697916" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18697916" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -230,11 +226,20 @@
           <caret line="8" column="28" lean-forward="true" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="n#!!block;n#mouseOver#0" expanded="false" />
-            <element signature="n#!!block;n#createText#0" expanded="false" />
-            <element signature="n#!!block;n#createTrumpLine#0" expanded="false" />
-            <element signature="n#!!block;n#createAxis#0" expanded="false" />
+            <element signature="n#!!block;n#createGrid#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../d3-book/chapter_11/06_area_chart.html" />
+    <entry file="file://$PROJECT_DIR$/../d3-book/chapter_08/02_axes_bottom.html" />
+    <entry file="file://$PROJECT_DIR$/../d3-book/chapter_11/04_line_chart_adjusted.html" />
+    <entry file="file://$PROJECT_DIR$/../d3-book/chapter_10/04_mouseover.html" />
+    <entry file="file://$PROJECT_DIR$/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -246,29 +251,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../d3-book/chapter_11/06_area_chart.html" />
-    <entry file="file://$PROJECT_DIR$/../d3-book/chapter_08/02_axes_bottom.html" />
-    <entry file="file://$PROJECT_DIR$/../d3-book/chapter_11/04_line_chart_adjusted.html" />
-    <entry file="file://$PROJECT_DIR$/../d3-book/chapter_10/04_mouseover.html" />
-    <entry file="file://$PROJECT_DIR$/index.css" />
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="2" column="33" lean-forward="false" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
+        <state relative-caret-position="480">
+          <caret line="12" column="21" lean-forward="true" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1516">
-          <caret line="258" column="40" lean-forward="false" selection-start-line="258" selection-start-column="40" selection-end-line="258" selection-end-column="40" />
+        <state relative-caret-position="-964">
+          <caret line="187" column="33" lean-forward="true" selection-start-line="187" selection-start-column="33" selection-end-line="187" selection-end-column="33" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="n#!!block;n#mouseOver#0" expanded="false" />
-            <element signature="n#!!block;n#createText#0" expanded="false" />
-            <element signature="n#!!block;n#createTrumpLine#0" expanded="false" />
-            <element signature="n#!!block;n#createAxis#0" expanded="false" />
+            <element signature="n#!!block;n#createGrid#0" expanded="false" />
           </folding>
         </state>
       </provider>
